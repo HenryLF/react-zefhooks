@@ -1,0 +1,7 @@
+*.tsbuildinfo
+*.log
+tsconfig.json
+.gitignore
+
+# Only include built files
+!dist/
