@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
+import {  useEffect,  useReducer, useState } from "react";
 export function useDimension() {
   const initialState = {
     height: window.innerHeight,
@@ -47,10 +47,37 @@ export function useResponsive(
   };
   useEffect(() => {
     updateResponsive();
-    const handle = () => updateResponsive();
-    window.addEventListener("resize", handle);
-    return () => window.removeEventListener("resize", handle);
+    window.addEventListener("resize", updateResponsive);
+    return () => window.removeEventListener("resize", updateResponsive);
   }, []);
 
   return responsive;
+}
+
+export function useBreakPoints<T>(
+  breakpoints: Record<number, T> = tailwindBreakPoint
+) {
+  const orderedBreakpoints = Object.entries(breakpoints).sort(
+    (a, b) => parseFloat(b[0]) - parseFloat(a[0])
+  );
+
+  const [payload, setPayload] = useState<T | null>(null);
+
+  const updatePayload = () => {
+    const w = window.innerWidth;
+    for (let [size, payload] of orderedBreakpoints) {
+      if (w >= parseFloat(size)) {
+        setPayload(payload);
+        return;
+      }
+    }
+    setPayload(null);
+  };
+  useEffect(() => {
+    updatePayload()
+    window.addEventListener("resize", updatePayload);
+    return () => window.removeEventListener("resize", updatePayload);
+  }, []);
+
+  return payload;
 }

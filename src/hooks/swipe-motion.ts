@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Touch, TouchEvent, useRef } from "react";
 
 export interface SwipeMotionOptions {
@@ -20,10 +20,9 @@ function maybeCall(func: CallableFunction | undefined | null) {
   }
 }
 
-
 export function useSwipeDirection(options: SwipeMotionOptions) {
-  const touchStart = useRef<Touch>(null);
-  const touchEnd = useRef<Touch>(null);
+  const touchStart = useRef<Touch | null>(null);
+  const touchEnd = useRef<Touch | null>(null);
 
   const threshold = options.swipeThreshold ?? 50;
   const swipeThreshold =
@@ -82,8 +81,8 @@ type SwipeMotionData = {
 type SwipeMotionHandler = (data: SwipeMotionData) => void;
 
 export function useSwipeMotion(handle: SwipeMotionHandler = console.log) {
-  const touchStart = useRef<Touch>(null);
-  const touchEnd = useRef<Touch>(null);
+  const touchStart = useRef<Touch | null>(null);
+  const touchEnd = useRef<Touch | null>(null);
   const timer = useRef(performance.now());
 
   const onTouchStart = (e: TouchEvent) => {
