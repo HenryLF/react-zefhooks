@@ -1,18 +1,20 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
+
 export function useDimension() {
   const [dimension, setDimension] = useState<{
     height: number;
     width: number;
   } | null>(null);
-  const updateDimension = () => {
-    setDimension({
-      height: window.innerHeight,
-      width: window.innerWidth,
-    });
-  };
 
   useEffect(() => {
+    const updateDimension = () => {
+      setDimension({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    };
+
     updateDimension();
     window.addEventListener("resize", updateDimension);
     return () => window.removeEventListener("resize", () => updateDimension);
@@ -33,23 +35,23 @@ export function useResponsive(
 ) {
   const [responsive, setResponsive] = useState<string[] | null>(null);
 
-  const updateResponsive = useCallback(() => {
-    const breakpointList = Object.entries(breakpoints);
-    const w = window.innerWidth;
-    const out = breakpointList.reduce<string[]>((acc, [label, size]) => {
-      if (w >= size) {
-        acc.push(label);
-      }
-      return acc;
-    }, []);
-    setResponsive((p) => (p && p.length == out.length ? p : out));
-  }, [breakpoints]);
-
   useEffect(() => {
+    const updateResponsive = () => {
+      const breakpointList = Object.entries(breakpoints);
+      const w = window.innerWidth;
+      const out = breakpointList.reduce<string[]>((acc, [label, size]) => {
+        if (w >= size) {
+          acc.push(label);
+        }
+        return acc;
+      }, []);
+      setResponsive((p) => (p && p.length == out.length ? p : out));
+    };
+
     updateResponsive();
     window.addEventListener("resize", updateResponsive);
     return () => window.removeEventListener("resize", updateResponsive);
-  }, [updateResponsive]);
+  }, []);
 
   return responsive;
 }
@@ -57,25 +59,25 @@ export function useResponsive(
 export function useBreakPoints<T>(breakpoints: Record<number, T>) {
   const [payload, setPayload] = useState<T | null>(null);
 
-  const updatePayload = useCallback(() => {
-    const orderedBreakpoints = Object.entries(breakpoints).sort(
-      (a, b) => parseFloat(b[0]) - parseFloat(a[0])
-    );
-    const w = window.innerWidth;
-    for (let [size, payload] of orderedBreakpoints) {
-      if (w >= parseFloat(size)) {
-        setPayload((p) => (p === payload ? p : payload));
-        return;
-      }
-    }
-    setPayload(null);
-  }, [breakpoints]);
-
   useEffect(() => {
+    const updatePayload = () => {
+      const orderedBreakpoints = Object.entries(breakpoints).sort(
+        (a, b) => parseFloat(b[0]) - parseFloat(a[0])
+      );
+      const w = window.innerWidth;
+      for (let [size, payload] of orderedBreakpoints) {
+        if (w >= parseFloat(size)) {
+          setPayload((p) => (p === payload ? p : payload));
+          return;
+        }
+      }
+      setPayload(null);
+    };
+
     updatePayload();
     window.addEventListener("resize", updatePayload);
     return () => window.removeEventListener("resize", updatePayload);
-  }, [updatePayload]);
+  }, []);
 
   return payload;
 }
