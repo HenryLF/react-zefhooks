@@ -1,7 +1,13 @@
 "use client";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { throttle } from "src/utils/throttle";
 
-export function useDimension() {
+export type HookOption = {
+  eventThrottle?: number
+}
+
+
+export function useDimension(options?: HookOption) {
   const [dimension, setDimension] = useState<{
     height: number;
     width: number;
@@ -16,8 +22,9 @@ export function useDimension() {
     };
 
     updateDimension();
-    window.addEventListener("resize", updateDimension);
-    return () => window.removeEventListener("resize", () => updateDimension);
+    const handle = throttle(updateDimension, options?.eventThrottle)
+    window.addEventListener("resize", handle);
+    return () => window.removeEventListener("resize", handle);
   }, []);
   return dimension;
 }
@@ -31,7 +38,8 @@ const tailwindBreakPoint = {
 };
 
 export function useResponsive(
-  breakpoints: Record<string, number> = tailwindBreakPoint
+  breakpoints: Record<string, number> = tailwindBreakPoint,
+  options: HookOption
 ) {
   const [responsive, setResponsive] = useState<string[] | null>(null);
 
@@ -49,14 +57,15 @@ export function useResponsive(
     };
 
     updateResponsive();
-    window.addEventListener("resize", updateResponsive);
-    return () => window.removeEventListener("resize", updateResponsive);
+    const handle = throttle(updateResponsive, options?.eventThrottle)
+    window.addEventListener("resize", handle);
+    return () => window.removeEventListener("resize", handle);
   }, []);
 
   return responsive;
 }
 
-export function useBreakPoints<T>(breakpoints: Record<number, T>) {
+export function useBreakPoints<T>(breakpoints: Record<number, T>, options: HookOption) {
   const [payload, setPayload] = useState<T | null>(null);
 
   useEffect(() => {
@@ -75,8 +84,9 @@ export function useBreakPoints<T>(breakpoints: Record<number, T>) {
     };
 
     updatePayload();
-    window.addEventListener("resize", updatePayload);
-    return () => window.removeEventListener("resize", updatePayload);
+    const handle = throttle(updatePayload, options?.eventThrottle)
+    window.addEventListener("resize", handle);
+    return () => window.removeEventListener("resize", handle);
   }, []);
 
   return payload;
