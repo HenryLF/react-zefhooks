@@ -13,17 +13,20 @@ yarn add react-zefhooks
 ## Usage
 
 You can import any hooks from the main package :
+
 ```ts
-import {useDimension} from "react-zefhooks"
+import { useDimension } from "react-zefhooks";
 ```
+
 or from any subpackage :
+
 ```ts
-import {useDimension} from "react-zefhooks/dimension"
+import { useDimension } from "react-zefhooks/dimension";
 ```
 
 ## Hooks Documentation
 
-### `react-zefhooks/dimension` 
+### `react-zefhooks/dimension`
 
 #### `useDimension(defaultValue?, options?)`
 
@@ -37,6 +40,7 @@ Tracks window dimensions and updates on resize.
 `options` (optional): `HookOption`  
 &nbsp;&nbsp;Configuration options for the hook  
 &nbsp;&nbsp;_Properties:_
+
 ```ts
 {
   eventThrottle?: number // Throttle time in milliseconds for resize events
@@ -85,6 +89,7 @@ Detects active responsive breakpoints based on window width.
 `options` (optional): `HookOption`  
 &nbsp;&nbsp;Configuration options for the hook  
 &nbsp;&nbsp;_Properties:_
+
 ```ts
 {
   eventThrottle?: number // Throttle time in milliseconds for resize events
@@ -103,7 +108,7 @@ const responsive = useResponsive();
 // With custom options
 const responsive = useResponsive(
   { mobile: 0, tablet: 768, desktop: 1024 },
-  ['mobile'],
+  ["mobile"],
   { eventThrottle: 200 }
 );
 ```
@@ -128,6 +133,7 @@ Returns custom responsive values based on window width.
 `options` (optional): `HookOption`  
 &nbsp;&nbsp;Configuration options for the hook  
 &nbsp;&nbsp;_Properties:_
+
 ```ts
 {
   eventThrottle?: number // Throttle time in milliseconds for resize events
@@ -146,13 +152,12 @@ const textSize = useBreakPoints({
 });
 
 // With throttling
-const textSize = useBreakPoints(
-  breakpointsConfig,
-  <div>Loading...</div>,
-  { eventThrottle: 150 }
-);
+const textSize = useBreakPoints(breakpointsConfig, <div>Loading...</div>, {
+  eventThrottle: 150,
+});
 ```
-### `react-zefhooks/swipe-motion` 
+
+### `react-zefhooks/swipe-motion`
 
 #### `useSwipeDirection(options)`
 
@@ -211,7 +216,7 @@ _Default:_ `console.log`
 **Returns:**  
 Same event handlers as `useSwipeDirection`
 
-### `react-zefhooks/scroll` 
+### `react-zefhooks/scroll`
 
 #### `useScrollData(target, eventThrottle?)`
 
@@ -242,10 +247,10 @@ const containerRef = useRef(null);
 const scrollData = useScrollData(containerRef, 100);
 
 // Use scroll ratios for progress indicators
-<div>Scroll Progress: {Math.round(scrollData.ratioV * 100)}%</div>
+<div>Scroll Progress: {Math.round(scrollData.ratioV * 100)}%</div>;
 ```
 
-### `react-zefhooks/intersection-observer` 
+### `react-zefhooks/intersection-observer`
 
 #### `useIntersectionObserver(target, options?)`
 
@@ -263,7 +268,7 @@ Observes element visibility using the Intersection Observer API.
 ```jsx
 const elementRef = useRef(null);
 const intersectionData = useIntersectionObserver(elementRef, {
-  threshold: 0.5
+  threshold: 0.5,
 });
 
 // Trigger animations when element becomes visible
@@ -275,14 +280,15 @@ useEffect(() => {
 ```
 
 ## Changelogs
-- v1.1.4 :
+
+- v1.1.5 :
   -add default values for dimension hooks
 
-- v1.1.3 : 
+- v1.1.3 :
   - useScrollData;
   - useIntersectionObserver;
   - throttle option added to relevant hooks.
 
 ## License
 
-[MIT](https://github.com/HenryLF/react-zefhooks) -  HenryLF
+[MIT](https://github.com/HenryLF/react-zefhooks) - HenryLF
