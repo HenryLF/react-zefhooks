@@ -1,11 +1,16 @@
 "use client";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-export function useDimension() {
+export function useDimension(
+  defaultValue: {
+    height: number;
+    width: number;
+  } = { width: 0, height: 0 }
+) {
   const [dimension, setDimension] = useState<{
     height: number;
     width: number;
-  } | null>(null);
+  }>(defaultValue);
 
   useEffect(() => {
     const updateDimension = () => {
@@ -31,9 +36,10 @@ const tailwindBreakPoint = {
 };
 
 export function useResponsive(
-  breakpoints: Record<string, number> = tailwindBreakPoint
+  breakpoints: Record<string, number> = tailwindBreakPoint,
+  defaultValue: string[] = []
 ) {
-  const [responsive, setResponsive] = useState<string[] | null>(null);
+  const [responsive, setResponsive] = useState<string[]>(defaultValue);
 
   useEffect(() => {
     const updateResponsive = () => {
@@ -56,8 +62,11 @@ export function useResponsive(
   return responsive;
 }
 
-export function useBreakPoints<T>(breakpoints: Record<number, T>) {
-  const [payload, setPayload] = useState<T | null>(null);
+export function useBreakPoints<T>(
+  breakpoints: Record<number, T>,
+  defaultValue: T | null = null
+) {
+  const [payload, setPayload] = useState<T | null>(defaultValue);
 
   useEffect(() => {
     const updatePayload = () => {
