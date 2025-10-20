@@ -1,0 +1,1 @@
+import{useEffect as o,useState as u}from"react";function i(e,t){let[n,s]=u();return o(()=>{if(!e.current)return;let r=new IntersectionObserver(c=>s(c[0]),t);return r.observe(e.current),()=>r.disconnect()},[e]),n}export{i as default};
