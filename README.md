@@ -281,7 +281,7 @@ useEffect(() => {
 
 ## Changelogs
 
-- v1.1.7 :
+- v1.1.8 :
   -fix useResponsive params
 
 - v1.1.5 :
