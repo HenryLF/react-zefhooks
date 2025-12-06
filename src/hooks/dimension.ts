@@ -45,7 +45,7 @@ const tailwindBreakPoint = {
 export function useResponsive(
   breakpoints: Record<string, number> = tailwindBreakPoint,
   defaultValue: string[] = [],
-  options: HookOption
+  options?: HookOption
 ) {
   const [responsive, setResponsive] = useState<string[]>(defaultValue);
 

@@ -281,6 +281,9 @@ useEffect(() => {
 
 ## Changelogs
 
+- v1.1.7 :
+  -fix useResponsive params
+
 - v1.1.5 :
   -add default values for dimension hooks
 
